@@ -27,6 +27,20 @@ pipeline {
             }
         }
 
+        stage('Check Reports') {
+            steps {
+                bat '''
+                echo ===== TARGET DIRECTORY =====
+                dir target
+
+                echo ===== CUCUMBER HTML =====
+                dir target\\CucumberReports.html
+
+                echo ===== EXTENT REPORT =====
+                dir reports\\ExtentReport.html
+                '''
+            }
+        }
     }
 
     post {
@@ -35,20 +49,18 @@ pipeline {
 
             echo 'Test execution completed.'
 
-            // Cucumber Report
             publishHTML([
-                allowMissing: false,
+                allowMissing: true,
                 alwaysLinkToLastBuild: true,
                 keepAll: true,
-                reportDir: 'target/cucumber-report',
-                reportFiles: 'index.html',
+                reportDir: 'target',
+                reportFiles: 'CucumberReports.html',
                 reportName: 'Cucumber HTML Report',
                 reportTitles: 'Cucumber Report'
             ])
 
-            // Extent Report
             publishHTML([
-                allowMissing: false,
+                allowMissing: true,
                 alwaysLinkToLastBuild: true,
                 keepAll: true,
                 reportDir: 'reports',
