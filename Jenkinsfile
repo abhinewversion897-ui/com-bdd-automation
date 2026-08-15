@@ -86,6 +86,6 @@ pipeline {
     failure {
         echo 'Automation tests FAILED.'
     }
-}
+}}
     }
 }
