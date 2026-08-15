@@ -27,13 +27,6 @@ pipeline {
             }
         }
 
-        stage('Check Reports') {
-            steps {
-                bat 'dir target'
-                bat 'dir target\\CucumberReports.html'
-                bat 'dir reports\\ExtentReport.html'
-            }
-        }
     }
 
     post {
@@ -47,8 +40,8 @@ pipeline {
                 allowMissing: false,
                 alwaysLinkToLastBuild: true,
                 keepAll: true,
-                reportDir: 'target',
-                reportFiles: 'CucumberReports.html',
+                reportDir: 'target/cucumber-report',
+                reportFiles: 'index.html',
                 reportName: 'Cucumber HTML Report',
                 reportTitles: 'Cucumber Report'
             ])
