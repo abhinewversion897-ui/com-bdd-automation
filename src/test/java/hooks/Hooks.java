@@ -70,7 +70,7 @@ public class Hooks {
 
 			try {
 
-				// Capture screenshot
+				// Capture screenshots
 				String screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
 
 				// Attach screenshot to Extent Report
