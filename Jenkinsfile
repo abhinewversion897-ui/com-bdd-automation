@@ -31,26 +31,29 @@ pipeline {
     post {
 
         always {
+
             echo 'Test execution completed.'
 
-            // Publish Cucumber HTML report
+            // Cucumber Report
             publishHTML([
-                allowMissing: true,
+                allowMissing: false,
                 alwaysLinkToLastBuild: true,
                 keepAll: true,
                 reportDir: 'target',
                 reportFiles: 'CucumberReports.html',
-                reportName: 'Cucumber HTML Report'
+                reportName: 'Cucumber HTML Report',
+                reportTitles: 'Cucumber Report'
             ])
 
-            // Publish Extent HTML report
+            // Extent Report
             publishHTML([
-                allowMissing: true,
+                allowMissing: false,
                 alwaysLinkToLastBuild: true,
                 keepAll: true,
                 reportDir: 'reports',
                 reportFiles: 'ExtentReport.html',
-                reportName: 'Extent Report'
+                reportName: 'Extent Report',
+                reportTitles: 'Extent Report'
             ])
         }
 
