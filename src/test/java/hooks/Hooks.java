@@ -60,7 +60,7 @@ public class Hooks {
 		test.info("Browser launched successfully");
 	}
 
-	// Screenshot after every Given / When / Then step
+	// Screenshot after every Given / When / Then steps
 	@AfterStep
 	public void afterStep(Scenario scenario) {
 
