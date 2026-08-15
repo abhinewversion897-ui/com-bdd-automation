@@ -50,56 +50,42 @@ pipeline {
         }
     }
 
-    post {
+ post {
 
-        always {
+    always {
 
-            echo 'Test execution completed.'
+        echo 'Test execution completed.'
 
-            publishHTML([
-                allowMissing: true,
-                alwaysLinkToLastBuild: true,
-                keepAll: true,
-                reportDir: 'target',
-                reportFiles: 'CucumberReports.html',
-                reportName: 'Cucumber HTML Report',
-                reportTitles: 'Cucumber Report'
-            ])
+        // Cucumber Report
+        publishHTML([
+            allowMissing: false,
+            alwaysLinkToLastBuild: true,
+            keepAll: true,
+            reportDir: 'target',
+            reportFiles: 'CucumberReports.html',
+            reportName: 'Cucumber HTML Report',
+            reportTitles: 'Cucumber Report'
+        ])
 
-            publishHTML([
-                allowMissing: true,
-                alwaysLinkToLastBuild: true,
-                keepAll: true,
-                reportDir: 'reports',
-                reportFiles: 'ExtentReport.html',
-                reportName: 'Extent Report',
-                reportTitles: 'Extent Report'
-            ])
-        }
+        // Extent Report
+        publishHTML([
+            allowMissing: false,
+            alwaysLinkToLastBuild: true,
+            keepAll: true,
+            reportDir: 'reports',
+            reportFiles: 'ExtentReport.html',
+            reportName: 'Extent Report',
+            reportTitles: 'Extent Report'
+        ])
+    }
 
-        success {
-            echo 'Automation tests PASSED.'
-        }
+    success {
+        echo 'Automation tests PASSED.'
+    }
 
-        failure {
-            echo 'Automation tests FAILED.'
-
-            mail(
-                to: 'YOUR_EMAIL@gmail.com',
-                subject: "Jenkins FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: """
-Jenkins Automation Test Failed.
-
-Job: ${env.JOB_NAME}
-Build: #${env.BUILD_NUMBER}
-Status: ${currentBuild.currentResult}
-
-Please check Jenkins console output and reports.
-
-Jenkins URL:
-${env.BUILD_URL}
-"""
-            )
-        }
+    failure {
+        echo 'Automation tests FAILED.'
+    }
+}
     }
 }
