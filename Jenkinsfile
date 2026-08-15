@@ -23,7 +23,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                bat 'exit /b 1'
+                bat 'mvn test'
             }
         }
 
@@ -41,46 +41,53 @@ pipeline {
                 '''
             }
         }
+
+        // TEMPORARY: Used only to test email notification
+        stage('Test Notification') {
+            steps {
+                bat 'exit /b 1'
+            }
+        }
     }
 
     post {
 
-    always {
+        always {
 
-        echo 'Test execution completed.'
+            echo 'Test execution completed.'
 
-        publishHTML([
-            allowMissing: true,
-            alwaysLinkToLastBuild: true,
-            keepAll: true,
-            reportDir: 'target',
-            reportFiles: 'CucumberReports.html',
-            reportName: 'Cucumber HTML Report',
-            reportTitles: 'Cucumber Report'
-        ])
+            publishHTML([
+                allowMissing: true,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'target',
+                reportFiles: 'CucumberReports.html',
+                reportName: 'Cucumber HTML Report',
+                reportTitles: 'Cucumber Report'
+            ])
 
-        publishHTML([
-            allowMissing: true,
-            alwaysLinkToLastBuild: true,
-            keepAll: true,
-            reportDir: 'reports',
-            reportFiles: 'ExtentReport.html',
-            reportName: 'Extent Report',
-            reportTitles: 'Extent Report'
-        ])
-    }
+            publishHTML([
+                allowMissing: true,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'reports',
+                reportFiles: 'ExtentReport.html',
+                reportName: 'Extent Report',
+                reportTitles: 'Extent Report'
+            ])
+        }
 
-    success {
-        echo 'Automation tests PASSED.'
-    }
+        success {
+            echo 'Automation tests PASSED.'
+        }
 
-    failure {
-        echo 'Automation tests FAILED.'
+        failure {
+            echo 'Automation tests FAILED.'
 
-        mail(
-            to: 'abhinewversion897@gmail.com',
-            subject: "Jenkins FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-            body: """
+            mail(
+                to: 'YOUR_EMAIL@gmail.com',
+                subject: "Jenkins FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
 Jenkins Automation Test Failed.
 
 Job: ${env.JOB_NAME}
@@ -92,6 +99,7 @@ Please check Jenkins console output and reports.
 Jenkins URL:
 ${env.BUILD_URL}
 """
-        )
+            )
+        }
     }
 }
