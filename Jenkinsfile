@@ -26,6 +26,14 @@ pipeline {
                 bat 'mvn test'
             }
         }
+
+        stage('Check Reports') {
+            steps {
+                bat 'dir target'
+                bat 'dir target\\CucumberReports.html'
+                bat 'dir reports\\ExtentReport.html'
+            }
+        }
     }
 
     post {
